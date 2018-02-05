@@ -1,0 +1,40 @@
+.transaction-screen {
+  .title {
+    font-weight:normal;
+    @include font-size(xl);
+    border-bottom:2px solid $aubergin;
+    padding-bottom:20px;
+    margin-bottom:20px;
+  }
+  .inner {
+    @include content-max-width;
+  }
+  .grid {
+    border-bottom:2px solid $smoke;
+    align-items:flex-end;
+    padding-bottom:15px;
+  }
+  .grid > *{
+    padding-right:10px;
+  }
+  .load-more {
+  }
+  .field-name {
+    @include font-size(s);
+  }
+  .account-address {
+    color:$magaenta;
+  }
+  .transaction {
+    margin:20px 0;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+  }
+  .transaction > div:first-child {
+    width:100%;
+  }
+  .transaction > div {
+    margin:4px 0;
+  }
+}

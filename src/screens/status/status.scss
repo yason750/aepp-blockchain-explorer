@@ -1,0 +1,5 @@
+.status-screen {
+  > * {
+    @include content-max-width;
+  }
+}

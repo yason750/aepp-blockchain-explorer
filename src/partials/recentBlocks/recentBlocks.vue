@@ -14,14 +14,14 @@
               </div>
             </td>
             <td>
-              <span class='number'>
+              <span class='field-name'>Transactions</span>
+              <span class='field-value number'>
                 {{b.transactions.length}}
               </span>
-              Transaction(s)
             </td>
             <td>
-              mined by
-              <span class="account-address">
+              <span class='field-name'>mined by</span>
+              <span class="field-value account-address">
                 <router-link :to='"/account/" + b.transactions[0].tx.account'>
                   {{b.transactions[0].tx.account | startAndEnd}}
                 </router-link>
@@ -49,14 +49,13 @@ export default {
       console.log('x')
       let i
       for (i = this.blockHeight; i > this.blockHeight - count; i--) {
-        let x = this.$http.get('internal/v2/block/height/' + i + '?tx_objects=true', { })
+        let x = this.$http.get('internal/v2/block/height/' + i + '?tx_encoding=json', { })
         this.apiBlocks.push(x)
       }
       this.apiBlocks.forEach((x, i) => {
         if (typeof x.then === 'undefined') return
         x.then(resp => {
-          this.apiBlocks[i] = resp.body
-          this.$forceUpdate()
+          this.$set(this.apiBlocks, i, resp.body)
         })
       })
       this.blockHeight = i
@@ -73,26 +72,4 @@ export default {
   }
 }
 </script>
-<style>
-.recent-blocks-partial {
-  margin-top:80px;
-  background:white;;
-}
-.recent-blocks-partial > .inner {
-  box-sizing: border-box;
-  max-width:1040px;
-  width:calc(100% - 40px);
-  background: #311B58;
-  box-shadow: 0 0 10px 0 rgba(0,0,0,0.11);
-  border-radius: 10px;
-  color:white;
-  padding:50px;
-  margin:0 auto;
-}
-.recent-blocks-partial .block-number a {
-  font-size:30px;
-}
-.recent-blocks-partial .account-address {
-  color: #F7296E
-}
-</style>
+<style src='./recentBlocks.scss' lang='scss' />

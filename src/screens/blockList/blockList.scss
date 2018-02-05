@@ -1,0 +1,64 @@
+.block-list-screen {
+  background: $aubergin;
+  color:$white;;
+  .inner {
+    @include content-max-width;
+  }
+  .field-name {
+    @include font-size(s);
+  }
+  .grid {
+    border-bottom:2px solid $smoke;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    padding-bottom:15px;
+    @include only-phone {
+      display:block;
+    }
+  }
+  .title {
+    font-weight:500;
+    @include font-size(xl);
+    @include only-phone {
+      @include font-size(l);
+    }
+  }
+  .ago .number {
+    @include font-size(xxl);
+    @include only-phone {
+      @include font-size(l);
+    }
+  }
+  .ago .unit {
+    @include font-size(m);
+    @include only-phone {
+      @include font-size(s);
+    }
+  }
+  .ago .unit + .number {
+    margin-left:20px;
+  }
+  .block-number {
+    @include font-size(xl);
+  }
+  @include only-phone {
+    table, td {
+      display:block;
+    }
+    tr {
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    tr + tr {
+      margin-top:10px;
+    }
+    tr td:first-child {
+      width:100%;
+    }
+  }
+  .account-address {
+    color:$magaenta;
+  }
+}

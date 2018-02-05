@@ -17,84 +17,92 @@
         <button @click='reset'>load</button>
       </div>
 
-      <table>
-        <tr>
-          <th>Block</th>
-          <th>Type</th>
-          <th>Sender</th>
-          <th>Recipient</th>
-          <th>Amount</th>
-          <th>Fee</th>
-        </tr>
-        <tr v-for='t in apiTransactions'>
-          <template v-if='t.tx.type === "CoinbaseTxObject"'>
-            <td>n/a</td>
-            <td>
+      <div class='transaction-list'>
+        <div v-for='t in apiTransactions' class='transaction'>
+          <template v-if='t.tx.type === "coinbase"'>
+            <div>
+              <span class='field-name'>type</span>
               Coinbase
-            </td>
-            <td>
-              -
-            </td>
-            <td>
-              <div class="account-address">
-              <router-link :to='"/account/" + t.tx.account'>
-                {{t.tx.account | startAndEnd}}
-              </router-link>
-              </div>
-            </td>
-            <td>block reward</td>
-            <td>-</td>
+            </div>
+            <div>
+              <!----->
+            </div>
+            <div>
+              <span class='field-name'>receiver</span>
+              <span class="account-address">
+                <router-link :to='"/account/" + t.tx.account'>
+                  {{t.tx.account | startAndEnd}}
+                </router-link>
+              </span>
+            </div>
+            <div>
+              <span class='field-name'>amount</span>
+              block reward
+            </div>
+            <div>
+              <span class='field-name'>no fee</span>
+            </div>
           </template>
-          <template v-else-if='t.tx.type === "SpendTxObject"'>
-            <th>n/a</th>
-            <td>
+          <template v-else-if='t.tx.type === "spend"'>
+            <div>
+              <span class='field-name'>type</span>
               Spend
-            </td>
-            <td>
+            </div>
+            <div>
+              <span class='field-name'>sender</span>
               <div class="account-address">
-              <router-link :to='"/account/" + t.tx.sender'>
-                {{t.tx.sender| startAndEnd}}
-              </router-link>
+                <router-link :to='"/account/" + t.tx.sender'>
+                  {{t.tx.sender| startAndEnd}}
+                </router-link>
               </div>
-            </td>
-            <td>
+            </div>
+            <div>
+              <span class='field-name'>recipient</span>
               <div class="account-address">
-              <router-link :to='"/account/" + t.tx.recipient'>
-                {{t.tx.recipient| startAndEnd}}
-              </router-link>
+                <router-link :to='"/account/" + t.tx.recipient'>
+                  {{t.tx.recipient| startAndEnd}}
+                </router-link>
               </div>
-            </td>
-            <td>
+            </div>
+            <div>
+              <span class='field-name'>amount</span>
               <span class='number'>{{ t.tx.amount }}</span>
               <span class="unit">AE</span>
-            </td>
-            <td>
+            </div>
+            <div>
+              <span class='field-name'>fee</span>
               <span class='number'>{{ t.tx.fee }}</span>
               <span class="unit">AE</span>
-            </td>
+            </div>
           </template>
-          <template v-else-if='t.tx.type === "OracleRegisterTxObject"'>
-            <td>n/a</td>
-            <td>OracleRegister</td>
-            <td>
+          <template v-else-if='t.tx.type === "oracleregister"'>
+            <div>
+              <span class='field-name'>type</span>
+              OracleRegister
+            </div>
+            <div>
+              <span class='field-name'>account</span>
               <div class="account-address">
                 <router-link :to='"/account/" + t.tx.account'>
                   {{t.tx.account | startAndEnd}}
                 </router-link>
               </div>
-            </td>
-            <td>-</td>
-            <td>-</td>
-            <td>
+            </div>
+            <div>
+              <span class='field-name'>fee</span>
               <span class='number'>{{ t.tx.fee }}</span>
               <span class="unit">AE</span>
-            </td>
+            </div>
           </template>
           <template v-else>
             {{t}}
           </template>
-        </tr>
-      </table>
+          <div>
+            <span class='field-name'>block</span>
+            n/a
+          </div>
+        </div>
+      </div>
       <button @click='getTransactions' class="load-more">Load 10 blocks more</button>
     </div>
   </div>
@@ -117,7 +125,7 @@ export default {
       if (from < 0) {
         from = 0
       }
-      this.$http.get(`internal/v2/block/txs/list/height?from=${from}&to=${this.to}&tx_objects=true`
+      this.$http.get(`internal/v2/block/txs/list/height?from=${from}&to=${this.to}&tx_encoding=json`
       ).then(resp => {
         this.apiTransactions = this.apiTransactions.concat(resp.body.transactions)
         this.to = from
@@ -149,33 +157,4 @@ export default {
   }
 }
 </script>
-<style>
-.transaction-screen {
-}
-.transaction-screen .title {
-  font-weight:normal;
-  font-size:30px;
-  border-bottom:2px solid #311B58;
-  padding-bottom:20px;
-  margin-bottom:20px;
-}
-.transaction-screen .inner {
-  margin:0 auto;
-  max-width:1040px;
-  width:calc(100% - 40px);
-}
-.transaction-screen .grid {
-  border-bottom:2px solid #F5F5F5;
-  align-items:flex-end;
-  padding-bottom:15px;
-}
-.transaction-screen .grid > *{
-  padding-right:10px;
-}
-.load-more {
-}
-.transaction-screen .account-address {
-  color:#F7296E;
-}
-
-</style>
+<style src='./transaction.scss' lang='scss' />

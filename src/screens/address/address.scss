@@ -1,0 +1,15 @@
+.account-screen {
+  > * {
+    @include content-max-width;
+  }
+  .title {
+    margin-top:0;
+    @include font-size(xl);
+    border-bottom:2px solid $aubergin;
+    padding-bottom:20px;
+    margin-bottom:20px;
+  }
+  .field{
+    margin-bottom:20px;
+  }
+}

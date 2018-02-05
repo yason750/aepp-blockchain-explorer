@@ -79,7 +79,7 @@
         </thead>
         <tbody>
           <tr v-for='t in apiBlock.transactions'>
-            <template v-if="t.tx.type === 'CoinbaseTxObject'">
+            <template v-if="t.tx.type === 'coinbase'">
               <td>Coinbase</td>
               <td>-</td>
               <td>
@@ -92,7 +92,7 @@
               <td>block reward</td>
               <td>-</td>
             </template>
-            <template v-else-if="t.tx.type === 'SpendTxObject'">
+            <template v-else-if="t.tx.type === 'spend'">
               <td>Spend</td>
               <td>
                 <router-link :to='"/account/" + t.tx.sender'>
@@ -113,7 +113,7 @@
                 <span class="unit">AE</span>
               </td>
             </template>
-            <template v-else-if='t.tx.type === "OracleRegisterTxObject"'>
+            <template v-else-if='t.tx.type === "oracleregister"'>
               <td>OracleRegister</td>
               <td>
                 <span class="account-address">
@@ -152,7 +152,7 @@ export default {
   },
   computed: {
     minedBy () {
-      return this.apiBlock.transactions.filter(t => t.tx.type === 'CoinbaseTxObject')[0].tx.account
+      return this.apiBlock.transactions.filter(t => t.tx.type === 'coinbase')[0].tx.account
     },
     ago () {
       if (!this.apiBlock) { return null }
@@ -180,7 +180,7 @@ export default {
       }
     },
     getBlockByHeight (height) {
-      this.$http.get('internal/v2/block/height/' + height + '?tx_objects=true', {
+      this.$http.get('internal/v2/block/height/' + height + '?tx_encoding=json', {
       }).then(response => {
         this.apiBlock = response.body
       }, response => {
@@ -188,7 +188,7 @@ export default {
       })
     },
     getBlockByHash (hash) {
-      this.$http.get('internal/v2/block/hash/' + hash + '?tx_objects=true', {
+      this.$http.get('internal/v2/block/hash/' + hash + '?tx_encoding=json', {
       }).then(response => {
         this.apiBlock = response.body
       }, response => {
@@ -205,66 +205,4 @@ export default {
 }
 </script>
 
-<style >
-.block-screen .header {
-  background-color:#311B58;
-  color:white;
-}
-.block-screen .block-transactions,
-.block-screen .header > * {
-  max-width:1040px;
-  width:calc(100% - 40px);
-  margin:0 auto;
-}
-
-.block-screen .block-navigation,
-.block-screen .basic-block-info {
-  justify-content:space-between;
-}
-.block-screen .basic-block-info {
-  border-bottom:2px solid #F5F5F5;
-  align-items:flex-end;
-  line-height:50px;
-  padding-bottom:20px;
-  margin-bottom:20px;
-}
-.block-screen .block-navigation ,
-.block-screen .detail-block-info {
-  padding: 20px 0;
-}
-.block-screen .detail-block-info .field {
-  margin-right:50px;
-  margin-bottom:15px;
-}
-.block-screen .account-address {
-  color:#F7296E;
-}
-.block-screen .block-height {
-  font-size:30px;
-}
-.block-screen .ago .number {
-  font-size:55px;
-}
-.block-screen .ago .unit {
-  font-size:18px;
-}
-.block-screen .ago .unit + .number {
-  margin-left:20px;
-}
-.block-screen .field-name {
-  font-size:14px;
-  opacity:0.4;
-}
-.block-screen .field-value {
-  margin-top:5px;
-  font-size:24px;
-}
-.block-screen .block-transactions .title {
-  margin-top:50px;
-  margin-bottom:30px;
-  font-size:24px;
-  font-weight:normal;
-  padding-bottom:20px;
-  border-bottom:2px solid #311B58;
-}
-</style>
+<style src='./block.scss' lang='scss' />
