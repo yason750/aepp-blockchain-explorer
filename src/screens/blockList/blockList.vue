@@ -20,7 +20,7 @@
      </div>
     </div>
 
-    <table>
+    <table class='transactions'>
       <tr v-for='b in apiBlocks'>
         <template v-if="typeof b.then === 'undefined'">
           <td>
@@ -81,12 +81,22 @@
         </template>
       </tr>
     </table>
-    <button @click='getBlocks(10)'>load more</button>
+    <div class="center">
+      <ae-button invert type='exciting' @click='getBlocks(10)'>
+        load more
+      </ae-button>
+    </div>
     </div>
   </div>
 </template>
 <script>
+import {
+  AeButton
+} from '@aeternity/aepp-components'
 export default {
+  components: {
+    AeButton
+  },
   data () {
     return {
       currentTime: null,
@@ -118,7 +128,6 @@ export default {
   },
   methods: {
     getBlocks (count) {
-      console.log('x')
       let i
       for (i = this.blockHeight; i > this.blockHeight - count; i--) {
         let x = this.$http.get('internal/v2/block/height/' + i + '?tx_encoding=json', { })
@@ -131,7 +140,6 @@ export default {
         })
       })
       this.blockHeight = i
-      console.log(i)
     }
   },
   mounted () {

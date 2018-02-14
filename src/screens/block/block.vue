@@ -2,7 +2,7 @@
   <div  v-if='apiBlock' class="block-screen screen">
     <div class="header">
       <div class="basic-block-info grid">
-        <div class='block-height'>
+        <div class=''>
           <span>Block</span>
           <span class='number block-height'>{{apiBlock.height}}</span>
         </div>
@@ -22,7 +22,9 @@
       <div class="detail-block-info">
         <div class="field hash">
           <div class='field-name'>Hash</div>
-          <div v-if='apiBlock.hash' class='field-value number'>{{ apiBlock.hash }}</div>
+          <div v-if='apiBlock.hash' class="scroll">
+            <div class='number'>{{ apiBlock.hash }}</div>
+          </div>
           <div v-else class='field-value number'>N/A</div>
         </div>
         <div class="grid">
