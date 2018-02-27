@@ -1,0 +1,39 @@
+.transaction {
+  .transaction-header {
+    border-bottom:1px solid $aubergin;
+    padding-bottom:20px;
+    align-items:flex-end;
+  }
+  .transaction-header ,
+  .transaction-body .grid {
+    margin-bottom:10px;
+    margin-top:10px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+  }
+  .transaction-type.coinbase {
+    background-color:$magaenta;
+  }
+  .transaction-type {
+    padding:7px 15px;
+    border-radius:2px;
+    background-color:$aubergin;
+    color:$white;
+  }
+
+  .account-address {
+    color:$magaenta;
+  }
+  .query-spec,
+  .response-spec,
+  .query,
+  .response {
+    font-family: 'Roboto Mono', monospace;
+    background:lighten($black, 20);
+    padding:15px;
+    max-height:300px;
+    overflow:scroll;
+    color:darken($white, 10);
+  }
+}

@@ -69,83 +69,28 @@
       <h2 class='title'>
         <span class='number'>{{txCount}}</span> Transaction(s)
       </h2>
-      <table v-if='apiBlock.transactions'>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Amount</th>
-            <th>Fee</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for='t in apiBlock.transactions'>
-            <template v-if="t.tx.type === 'coinbase'">
-              <td>Coinbase</td>
-              <td>-</td>
-              <td>
-                <span class="account-address">
-                  <router-link :to='"/account/" + t.tx.account'>
-                    {{t.tx.account | startAndEnd }}
-                  </router-link>
-                </span>
-              </td>
-              <td>block reward</td>
-              <td>-</td>
-            </template>
-            <template v-else-if="t.tx.type === 'spend'">
-              <td>Spend</td>
-              <td>
-                <router-link :to='"/account/" + t.tx.sender'>
-                  {{ t.tx.sender | startAndEnd }}
-                </router-link>
-              </td>
-              <td>
-                <router-link :to='"/account/" + t.tx.recipient'>
-                  {{ t.tx.recipient | startAndEnd }}
-                </router-link>
-              </td>
-              <td>
-                <span class='number'>{{ t.tx.amount }}</span>
-                <span class="unit">AE</span>
-              </td>
-              <td>
-                <span class='number'>{{ t.tx.fee }}</span>
-                <span class="unit">AE</span>
-              </td>
-            </template>
-            <template v-else-if='t.tx.type === "oracleregister"'>
-              <td>OracleRegister</td>
-              <td>
-                <span class="account-address">
-                  <router-link :to='"/account/" + t.tx.account'>
-                    {{t.tx.account | startAndEnd }}
-                  </router-link>
-                </span>
-              </td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                <span class='number'>{{ t.tx.fee }}</span>
-                <span class="unit">AE</span>
-              </td>
-            </template>
-            <template v-else>
-              <td>{{ t }}</td>
-            </template>
-          </tr>
-        </tbody>
-      </table>
+      <div v-if='apiBlock.transactions'>
+        <ae-panel :key='t.hash' v-for='t in apiBlock.transactions'>
+          <transaction :transaction='t'/>
+        </ae-panel>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Transaction from '../../components/transaction/transaction.vue'
+import {
+  AePanel
+} from '@aeternity/aepp-components'
 const blockHashRegex = RegExp('^bh\\$[1-9A-HJ-NP-Za-km-z]{48,49}')
 const blockHeightRegex = RegExp('^[0-9]+')
 export default {
   name: 'Block',
+  components: {
+    AePanel,
+    Transaction
+  },
   data () {
     return {
       currentTime: null,
@@ -154,7 +99,7 @@ export default {
   },
   computed: {
     minedBy () {
-      return this.apiBlock.transactions.filter(t => t.tx.type === 'coinbase')[0].tx.account
+      return this.apiBlock.transactions.filter(t => t.tx.type === 'aec_coinbase_tx')[0].tx.account
     },
     ago () {
       if (!this.apiBlock) { return null }
