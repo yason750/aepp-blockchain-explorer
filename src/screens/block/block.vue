@@ -49,8 +49,8 @@
         <div class="field hash">
           <div class="field-name">Parent Hash</div>
           <div class="field-value block-hash">
-            <router-link :to="`/block/${block.prev_hash}`">
-              {{ block.prev_hash | startAndEnd }}
+            <router-link :to="`/block/${block.prevHash}`">
+              {{ block.prevHash | startAndEnd }}
             </router-link>
           </div>
         </div>
