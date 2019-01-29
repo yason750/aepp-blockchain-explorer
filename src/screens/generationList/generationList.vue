@@ -31,13 +31,15 @@
             <tr
               v-for="i in numGenerations"
               :key="i"
+
             >
               <td>
                 <span
                   v-if="generations[height-i+1]"
                   class="height"
+
                 >
-                  <RouterLink :to="`/generation/${generations[height-i+1].keyBlock.height}`">
+                  <RouterLink data-cy="link" :to="`/generation/${generations[height-i+1].keyBlock.height}`">
                     {{ generations[height-i+1].keyBlock.height }}
                   </RouterLink>
                 </span>
