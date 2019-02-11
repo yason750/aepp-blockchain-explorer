@@ -1,8 +1,3 @@
----
-layout: page
-title: Blockchain Explorer
-navigation: 2
----
 
 # Aeternity explorer with sample end to end tests written using cypress
 
